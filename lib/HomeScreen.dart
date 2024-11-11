@@ -1,8 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:gamenest/Login.dart'; // Importa a tela de login
+import 'package:gamenest/UserScreen.dart'; // Importa a tela de perfil do usuário
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  int _currentIndex = 0; // Índice atual da BottomNavigationBar
+
+  // Método para mudar de tela com a BottomNavigationBar
+  void _onItemTapped(int index) {
+    setState(() {
+      _currentIndex = index;
+    });
+    if (index == 0) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => HomeScreen()),
+      );
+    } else if (index == 1) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => UserScreen()),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,12 +75,12 @@ class HomeScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Jogo ${index}',
+                      'Jogo $index',
                       style: const TextStyle(color: Colors.white, fontSize: 16),
                     ),
-                    Text(
+                    const Text(
                       'Vagas: 1/5',
-                      style: const TextStyle(color: Colors.white70, fontSize: 14),
+                      style: TextStyle(color: Colors.white70, fontSize: 14),
                     ),
                     ElevatedButton(
                       onPressed: () {},
@@ -69,6 +95,20 @@ class HomeScreen extends StatelessWidget {
             );
           }),
         ),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _currentIndex, // Define o índice atual
+        onTap: _onItemTapped, // Chama o método para mudar de tela
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: 'Perfil',
+          ),
+        ],
       ),
     );
   }

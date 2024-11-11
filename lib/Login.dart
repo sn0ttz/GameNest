@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:gamenest/Cadastro.dart'; // Importa a tela de cadastro
 import 'package:gamenest/HomeScreen.dart'; // Certifique-se de que este caminho está correto
-import 'package:gamenest/UserScreen.dart'; // Importa a tela de usuário
 
 class LoginPage extends StatefulWidget {
   @override
@@ -10,18 +10,6 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
-  int _currentIndex = 0;
-
-  void _onItemTapped(int index) {
-    if (index == 1) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => UserScreen()), // Navegar para a tela de perfil
-      );
-    }
-    // Adicione lógica para outras páginas conforme necessário
-  }
 
   void _login() {
     final username = _usernameController.text;
@@ -73,7 +61,11 @@ class _LoginPageState extends State<LoginPage> {
             SizedBox(height: 16.0),
             TextButton(
               onPressed: () {
-                // Lógica para redirecionar para a tela de cadastro
+                // Navegar para a tela de cadastro
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => CadastroPage()),
+                );
               },
               child: Text('Não tem uma conta? Cadastre-se'),
             ),
@@ -82,11 +74,4 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
-}
-
-void main() {
-  runApp(MaterialApp(
-    title: 'GameNest',
-    home: LoginPage(),
-  ));
 }

@@ -10,6 +10,16 @@ class HomeScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Jogos Disponíveis', style: TextStyle(color: Colors.white)),
         backgroundColor: Colors.deepPurple,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back), // Ícone de seta para voltar
+          onPressed: () {
+            Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => LoginPage()),
+              (route) => false, // Remove todas as rotas anteriores
+            );
+          },
+        ),
         actions: [
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -22,16 +32,6 @@ class HomeScreen extends StatelessWidget {
                 );
               },
             ),
-          ),
-          IconButton(
-            icon: const Icon(Icons.logout),
-            onPressed: () {
-              Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(builder: (context) => LoginPage()),
-                (route) => false, 
-              );
-            },
           ),
         ],
       ),

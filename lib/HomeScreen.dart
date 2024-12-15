@@ -48,7 +48,67 @@ class _HomeScreenState extends State<HomeScreen> {
         MaterialPageRoute(
             builder: (context) => UserScreen(username: widget.username)),
       );
+    } else if (index == 2) {
+      _showAddRoomDialog();
     }
+  }
+
+  // Método para adicionar uma nova sala
+  void _addRoom(String name, String description) {
+    setState(() {
+      games.add({
+        "name": name,
+        "players": [],
+        "description": description,
+      });
+    });
+  }
+
+  // Método para mostrar o diálogo de criação de sala
+  void _showAddRoomDialog() {
+    final nameController = TextEditingController();
+    final descriptionController = TextEditingController();
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Criar Sala'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                controller: nameController,
+                decoration: InputDecoration(labelText: 'Nome da Sala'),
+              ),
+              TextField(
+                controller: descriptionController,
+                decoration: InputDecoration(labelText: 'Descrição da Sala'),
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Cancelar'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                final name = nameController.text;
+                final description = descriptionController.text;
+                if (name.isNotEmpty && description.isNotEmpty) {
+                  _addRoom(name, description);
+                  Navigator.of(context).pop();
+                }
+              },
+              child: Text('Criar'),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -141,6 +201,10 @@ class _HomeScreenState extends State<HomeScreen> {
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
             label: 'Perfil',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.add),
+            label: 'Criar Sala',
           ),
         ],
       ),

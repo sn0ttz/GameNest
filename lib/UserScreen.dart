@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:gamenest/HomeScreen.dart';
 
 class UserScreen extends StatefulWidget {
+  final String username;
+
+  UserScreen({required this.username});
+
   @override
   _UserScreenState createState() => _UserScreenState();
 }
@@ -43,11 +47,11 @@ class _UserScreenState extends State<UserScreen> {
                 ),
                 SizedBox(height: 10),
                 Text(
-                  'Nome do Usuário',
+                  widget.username,
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
                 Text(
-                  '@username',
+                  '@${widget.username}',
                   style: TextStyle(fontSize: 16, color: Colors.grey),
                 ),
               ],
@@ -91,8 +95,8 @@ class _UserScreenState extends State<UserScreen> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) =>
-                      HomeScreen()), // Navegar para a tela Home
+                  builder: (context) => HomeScreen(
+                      username: widget.username)), // Navegar para a tela Home
             );
           }
         },

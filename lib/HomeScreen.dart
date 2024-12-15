@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:gamenest/Login.dart'; // Importa a tela de login
 import 'package:gamenest/UserScreen.dart'; // Importa a tela de perfil do usuário
+import 'package:gamenest/GameDetailPage.dart'; // Importa a tela de detalhes do jogo
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  final String username;
+
+  const HomeScreen({super.key, required this.username});
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -11,6 +14,22 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _currentIndex = 0; // Índice atual da BottomNavigationBar
+
+  // Exemplo de lista de jogos e jogadores
+  List<Map<String, dynamic>> games = [
+    {
+      "name": "Counter-Strike",
+      "players": ["Jogador 1", "Jogador 2", "Jogador 3"],
+    },
+    {
+      "name": "League of Legends",
+      "players": ["Jogador 4", "Jogador 5", "Jogador 6"],
+    },
+    {
+      "name": "Valorant",
+      "players": ["Jogador 7", "Jogador 8", "Jogador 9"],
+    },
+  ];
 
   // Método para mudar de tela com a BottomNavigationBar
   void _onItemTapped(int index) {
@@ -20,12 +39,14 @@ class _HomeScreenState extends State<HomeScreen> {
     if (index == 0) {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => HomeScreen()),
+        MaterialPageRoute(
+            builder: (context) => HomeScreen(username: widget.username)),
       );
     } else if (index == 1) {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => UserScreen()),
+        MaterialPageRoute(
+            builder: (context) => UserScreen(username: widget.username)),
       );
     }
   }
@@ -34,14 +55,15 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Jogos Disponíveis', style: TextStyle(color: Colors.white)),
+        title: const Text('Jogos Disponíveis',
+            style: TextStyle(color: Colors.white)),
         backgroundColor: Colors.deepPurple,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back), // Ícone de seta para voltar
           onPressed: () {
             Navigator.pushAndRemoveUntil(
               context,
-              MaterialPageRoute(builder: (context) => LoginPage()),
+              MaterialPageRoute(builder: (context) => const LoginPage()),
               (route) => false, // Remove todas as rotas anteriores
             );
           },
@@ -66,7 +88,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: GridView.count(
           crossAxisCount: 2,
           childAspectRatio: 1,
-          children: List.generate(10, (index) {
+          children: List.generate(games.length, (index) {
             return Card(
               color: const Color.fromARGB(255, 27, 83, 125),
               child: Padding(
@@ -75,7 +97,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Jogo $index',
+                      games[index]["name"],
                       style: const TextStyle(color: Colors.white, fontSize: 16),
                     ),
                     const Text(
@@ -83,11 +105,23 @@ class _HomeScreenState extends State<HomeScreen> {
                       style: TextStyle(color: Colors.white70, fontSize: 14),
                     ),
                     ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => GameDetailPage(
+                              gameName: games[index]["name"],
+                              players:
+                                  List<String>.from(games[index]["players"]),
+                            ),
+                          ),
+                        );
+                      },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.deepPurple,
                       ),
-                      child: const Text('Entrar na sala', style: TextStyle(color: Colors.white)),
+                      child: const Text('Entrar na sala',
+                          style: TextStyle(color: Colors.white)),
                     ),
                   ],
                 ),

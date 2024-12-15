@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'DatabaseHelper.dart';
 
 class CadastroPage extends StatefulWidget {
+  const CadastroPage({super.key});
+
   @override
   _CadastroPageState createState() => _CadastroPageState();
 }

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'DatabaseHelper.dart';
 
 class CadastroPage extends StatefulWidget {
+  const CadastroPage({super.key});
+
   @override
   _CadastroPageState createState() => _CadastroPageState();
 }
@@ -11,7 +14,7 @@ class _CadastroPageState extends State<CadastroPage> {
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
 
-  void _cadastrar() {
+  void _cadastrar() async {
     final username = _usernameController.text;
     final email = _emailController.text;
     final password = _passwordController.text;
@@ -25,14 +28,11 @@ class _CadastroPageState extends State<CadastroPage> {
       return;
     }
 
-    // Aqui você pode adicionar a lógica para registrar o usuário
+    final db = DatabaseHelper();
+    await db.insertUser(username, email, password);
 
-    print('Nome de usuário: $username');
-    print('Email: $email');
-    print('Senha: $password');
-    
     // Após o cadastro bem-sucedido, você pode navegar de volta para a tela de login
-    Navigator.pop(context); // Retorna para a tela de login
+    Navigator.pop(context);
   }
 
   @override
@@ -85,7 +85,6 @@ class _CadastroPageState extends State<CadastroPage> {
               child: Text('Cadastrar'),
             ),
             SizedBox(height: 16.0),
-          
           ],
         ),
       ),

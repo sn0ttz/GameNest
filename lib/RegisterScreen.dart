@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'HomeScreen.dart'; // Import da tela Home
 
 class RegisterScreen extends StatefulWidget {
+  const RegisterScreen({super.key});
+
   @override
   _RegisterScreenState createState() => _RegisterScreenState();
 }
@@ -29,7 +31,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
       // Se todos os campos obrigatórios forem válidos, o usuário será redirecionado para a HomeScreen
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => HomeScreen()),
+        MaterialPageRoute(
+            builder: (context) =>
+                HomeScreen(username: usernameController.text)),
       );
     } else {
       // Se houver campos obrigatórios faltantes ou inválidos
@@ -60,9 +64,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
       ),
       body: Center(
         child: ConstrainedBox(
-          constraints: BoxConstraints(maxWidth: 500), // Aumenta o tamanho máximo da caixa
+          constraints: BoxConstraints(
+              maxWidth: 500), // Aumenta o tamanho máximo da caixa
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 32.0), // Espaçamento horizontal nas bordas
+            padding: const EdgeInsets.symmetric(
+                horizontal: 32.0), // Espaçamento horizontal nas bordas
             child: Form(
               key: _formKey,
               child: ListView(
@@ -197,7 +203,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     decoration: InputDecoration(
                       labelText: 'Senha',
                       suffixIcon: IconButton(
-                        icon: Icon(showPassword ? Icons.visibility : Icons.visibility_off),
+                        icon: Icon(showPassword
+                            ? Icons.visibility
+                            : Icons.visibility_off),
                         onPressed: () {
                           setState(() {
                             showPassword = !showPassword;
@@ -239,12 +247,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   // Botão de Cadastro
                   ElevatedButton(
                     onPressed: _register,
-                    child: Text(
-                      'Cadastrar',
-                      style: TextStyle(color: Color(0xFFA37FEB)), // Cor do texto do botão
-                    ),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.white, // Cor de fundo do botão
+                    ),
+                    child: Text(
+                      'Cadastrar',
+                      style: TextStyle(
+                          color: Color(0xFFA37FEB)), // Cor do texto do botão
                     ),
                   ),
                 ],
@@ -256,4 +265,3 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 }
-
